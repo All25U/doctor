@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Alejandro Méndez — Medicina General</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #1a6b5a;
+    --teal-dark: #0f4f42;
+    --teal-light: #e8f5f1;
+    --cream: #faf8f5;
+    --sand: #f0ebe4;
+    --text: #2c2c2c;
+    --text-light: #6b6b6b;
+    --gold: #c9a84c;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--cream);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250, 248, 245, 0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(26, 107, 90, 0.08);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: 0 2px 30px rgba(0,0,0,0.06); }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 32px;
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem; font-weight: 600;
+    color: var(--teal-dark);
+    letter-spacing: -0.02em;
+  }
+  .logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: var(--text-light);
+    font-size: 0.9rem; font-weight: 500;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 2px; background: var(--teal);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    background: var(--teal); color: white !important;
+    padding: 10px 24px; border-radius: 50px;
+    font-weight: 500; font-size: 0.85rem;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .nav-cta::after { display: none !important; }
+  .nav-cta:hover { background: var(--teal-dark); transform: translateY(-1px); }
+
+  /* HAMBURGER */
+  .hamburger { display: none; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span {
+    display: block; width: 24px; height: 2px;
+    background: var(--teal-dark); margin: 6px 0;
+    transition: 0.3s;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 32px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(26,107,90,0.07) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -100px; left: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-inner {
+    max-width: 1200px; margin: 0 auto; width: 100%;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+    position: relative; z-index: 1;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--teal-light); color: var(--teal);
+    padding: 8px 18px; border-radius: 50px;
+    font-size: 0.8rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 24px;
+    animation: fadeInUp 0.8s ease both;
+  }
+  .hero-tag::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--teal); border-radius: 50%;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 3.8rem);
+    font-weight: 700; line-height: 1.15;
+    color: var(--teal-dark);
+    margin-bottom: 20px;
+    animation: fadeInUp 0.8s ease 0.1s both;
+  }
+  .hero h1 em {
+    font-style: italic; color: var(--gold);
+  }
+  .hero p {
+    font-size: 1.1rem; color: var(--text-light);
+    line-height: 1.7; max-width: 480px;
+    margin-bottom: 36px;
+    animation: fadeInUp 0.8s ease 0.2s both;
+  }
+  .hero-buttons {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    animation: fadeInUp 0.8s ease 0.3s both;
+  }
+  .btn-primary {
+    background: var(--teal); color: white;
+    padding: 16px 36px; border-radius: 50px;
+    text-decoration: none; font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+    display: inline-flex; align-items: center; gap: 10px;
+    box-shadow: 0 4px 20px rgba(26,107,90,0.25);
+  }
+  .btn-primary:hover {
+    background: var(--teal-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(26,107,90,0.3);
+  }
+  .btn-secondary {
+    background: transparent; color: var(--teal);
+    padding: 16px 36px; border-radius: 50px;
+    text-decoration: none; font-weight: 600;
+    font-size: 0.95rem;
+    border: 2px solid var(--teal);
+    transition: all 0.3s;
+  }
+  .btn-secondary:hover {
+    background: var(--teal); color: white;
+    transform: translateY(-2px);
+  }
+
+  /* DOCTOR IMAGE */
+  .hero-image {
+    display: flex; justify-content: center;
+    animation: fadeInUp 0.8s ease 0.4s both;
+  }
+  .doctor-photo {
+    width: 420px; height: 500px;
+    background: linear-gradient(135deg, var(--teal-light) 0%, var(--sand) 100%);
+    border-radius: 200px 200px 30px 30px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(26,107,90,0.12);
+  }
+  .doctor-photo-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    color: var(--teal);
+  }
+  .doctor-icon {
+    width: 120px; height: 120px;
+    background: rgba(26,107,90,0.1);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem; margin-bottom: 16px;
+  }
+  .doctor-photo-placeholder span {
+    font-size: 0.85rem; color: var(--text-light);
+  }
+  .float-card {
+    position: absolute;
+    background: white;
+    padding: 16px 22px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    font-size: 0.85rem;
+    animation: float 4s ease-in-out infinite;
+  }
+  .float-card-1 { bottom: 60px; left: -40px; }
+  .float-card-2 { top: 80px; right: -30px; animation-delay: -2s; }
+  .float-card strong { color: var(--teal); display: block; font-size: 1.3rem; }
+  .float-card span { color: var(--text-light); }
+
+  /* STATS */
+  .stats {
+    background: var(--teal-dark);
+    padding: 50px 32px;
+  }
+  .stats-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 32px; text-align: center;
+  }
+  .stat-item h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem; color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .stat-item p { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+
+  /* SECTIONS */
+  section { padding: 100px 32px; }
+  .section-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--teal); font-size: 0.8rem;
+    font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.1em; margin-bottom: 12px;
+  }
+  .section-tag::before {
+    content: ''; width: 30px; height: 2px;
+    background: var(--gold);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 700; color: var(--teal-dark);
+    margin-bottom: 16px;
+  }
+  .section-subtitle {
+    color: var(--text-light); font-size: 1.05rem;
+    max-width: 580px; line-height: 1.7;
+    margin-bottom: 50px;
+  }
+
+  /* SERVICIOS */
+  .services { background: var(--white); }
+  .services-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .service-card {
+    background: var(--cream);
+    border-radius: 20px;
+    padding: 36px 30px;
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid transparent;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 4px; background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(26,107,90,0.1);
+    border-color: rgba(26,107,90,0.1);
+  }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-icon {
+    width: 56px; height: 56px;
+    background: var(--teal-light);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 20px;
+  }
+  .service-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem; font-weight: 600;
+    color: var(--teal-dark); margin-bottom: 10px;
+  }
+  .service-card p {
+    color: var(--text-light); font-size: 0.9rem;
+    line-height: 1.6; margin-bottom: 20px;
+  }
+  .service-price {
+    display: inline-block;
+    background: var(--teal-dark); color: white;
+    padding: 8px 20px; border-radius: 50px;
+    font-weight: 600; font-size: 0.95rem;
+  }
+  .service-price small {
+    font-weight: 400; opacity: 0.7; font-size: 0.75rem;
+  }
+
+  /* SOBRE MI */
+  .about-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+  }
+  .about-image {
+    width: 100%; height: 450px;
+    background: linear-gradient(135deg, var(--sand), var(--teal-light));
+    border-radius: 24px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .about-image-text {
+    color: var(--teal); font-size: 0.9rem;
+  }
+  .credential {
+    display: flex; align-items: start; gap: 16px;
+    margin-bottom: 20px;
+  }
+  .credential-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    background: var(--teal-light);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--teal); font-size: 1.1rem;
+  }
+  .credential h4 { font-size: 0.95rem; margin-bottom: 2px; color: var(--teal-dark); }
+  .credential p { font-size: 0.85rem; color: var(--text-light); }
+
+  /* CONTACTO */
+  .contact { background: var(--white); }
+  .contact-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 60px;
+  }
+  .contact-info { display: flex; flex-direction: column; gap: 28px; }
+  .contact-item {
+    display: flex; gap: 18px; align-items: start;
+  }
+  .contact-icon {
+    width: 52px; height: 52px; flex-shrink: 0;
+    background: var(--teal-light);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; color: var(--teal);
+  }
+  .contact-item h4 {
+    font-size: 0.95rem; color: var(--teal-dark);
+    margin-bottom: 4px;
+  }
+  .contact-item p { color: var(--text-light); font-size: 0.9rem; line-height: 1.5; }
+
+  .map-container {
+    border-radius: 24px;
+    overflow: hidden;
+    height: 400px;
+    background: var(--sand);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    border: 1px solid rgba(26,107,90,0.1);
+  }
+  .map-placeholder {
+    text-align: center; color: var(--text-light);
+    font-size: 0.9rem;
+  }
+  .map-placeholder .map-icon { font-size: 3rem; margin-bottom: 12px; display: block; }
+
+  /* WHATSAPP FLOAT */
+  .whatsapp-btn {
+    position: fixed; bottom: 28px; right: 28px;
+    width: 62px; height: 62px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 24px rgba(37,211,102,0.35);
+    z-index: 99;
+    transition: transform 0.3s;
+    text-decoration: none;
+    animation: pulse 2.5s ease infinite;
+  }
+  .whatsapp-btn:hover { transform: scale(1.1); }
+  .whatsapp-btn svg { width: 32px; height: 32px; fill: white; }
+
+  /* FOOTER */
+  footer {
+    background: var(--teal-dark);
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    padding: 40px 32px;
+    font-size: 0.85rem;
+  }
+  footer a { color: var(--gold); text-decoration: none; }
+
+  /* ANIMATIONS */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 6px 24px rgba(37,211,102,0.35); }
+    50% { box-shadow: 0 6px 36px rgba(37,211,102,0.55); }
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: all 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1; transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .nav-links.open {
+      display: flex; flex-direction: column;
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: var(--cream); padding: 24px 32px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+    .hamburger { display: block; }
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+    .hero p { margin: 0 auto 36px; }
+    .hero-buttons { justify-content: center; }
+    .hero-image { order: -1; }
+    .doctor-photo { width: 280px; height: 340px; }
+    .float-card { display: none; }
+    .stats-inner { grid-template-columns: repeat(2, 1fr); }
+    .services-grid { grid-template-columns: 1fr; }
+    .about-inner { grid-template-columns: 1fr; gap: 40px; }
+    .contact-inner { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="logo">Dr. Méndez<span>.</span></div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#sobre-mi">Sobre mí</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+      <li><a href="#contacto" class="nav-cta">Agendar Cita</a></li>
+    </ul>
+    <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag">Medicina General y Preventiva</div>
+      <h1>Tu salud en las <em>mejores</em> manos</h1>
+      <p>Atención médica personalizada con más de 15 años de experiencia. Porque cada paciente merece un trato cercano, profesional y humano.</p>
+      <div class="hero-buttons">
+        <a href="#contacto" class="btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          Agendar Cita
+        </a>
+        <a href="#servicios" class="btn-secondary">Ver Servicios</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="doctor-photo">
+        <div class="doctor-photo-placeholder">
+          <div class="doctor-icon">👨‍⚕️</div>
+          <span>Foto del Doctor</span>
+        </div>
+        <div class="float-card float-card-1">
+          <strong>15+</strong>
+          <span>Años de experiencia</span>
+        </div>
+        <div class="float-card float-card-2">
+          <strong>5,000+</strong>
+          <span>Pacientes atendidos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <h3>15+</h3>
+      <p>Años de experiencia</p>
+    </div>
+    <div class="stat-item">
+      <h3>5,000+</h3>
+      <p>Pacientes atendidos</p>
+    </div>
+    <div class="stat-item">
+      <h3>98%</h3>
+      <p>Satisfacción</p>
+    </div>
+    <div class="stat-item">
+      <h3>6</h3>
+      <p>Servicios especializados</p>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICIOS -->
+<section class="services" id="servicios">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <div class="section-tag">Nuestros servicios</div>
+    <h2 class="section-title reveal">Atención integral para<br>toda la familia</h2>
+    <p class="section-subtitle reveal">Ofrecemos una amplia gama de servicios médicos con tecnología moderna y un enfoque centrado en el paciente.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon">🩺</div>
+      <h3>Consulta General</h3>
+      <p>Evaluación médica completa, diagnóstico y tratamiento personalizado para cualquier padecimiento.</p>
+      <div class="service-price">$500 MXN <small>/ consulta</small></div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">💉</div>
+      <h3>Check-up Preventivo</h3>
+      <p>Estudios de laboratorio, exploración física completa y plan de prevención personalizado.</p>
+      <div class="service-price">$1,800 MXN <small>/ paquete</small></div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">❤️</div>
+      <h3>Control de Enfermedades Crónicas</h3>
+      <p>Seguimiento de diabetes, hipertensión y otras enfermedades crónico-degenerativas.</p>
+      <div class="service-price">$600 MXN <small>/ consulta</small></div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">👶</div>
+      <h3>Atención Pediátrica</h3>
+      <p>Cuidado integral para los más pequeños: vacunación, control de crecimiento y consultas.</p>
+      <div class="service-price">$500 MXN <small>/ consulta</small></div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">🫁</div>
+      <h3>Certificados Médicos</h3>
+      <p>Certificados de salud para trámites laborales, escolares, deportivos y licencias de conducir.</p>
+      <div class="service-price">$350 MXN</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">💊</div>
+      <h3>Urgencias Menores</h3>
+      <p>Atención inmediata para lesiones leves, infecciones, cuadros respiratorios y más.</p>
+      <div class="service-price">$700 MXN <small>/ consulta</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE MI -->
+<section id="sobre-mi">
+  <div class="about-inner">
+    <div class="about-image reveal">
+      <div class="about-image-text">📷 Foto del consultorio o del doctor</div>
+    </div>
+    <div>
+      <div class="section-tag">Sobre mí</div>
+      <h2 class="section-title reveal">Dr. Alejandro Méndez García</h2>
+      <p class="section-subtitle reveal">Médico cirujano con más de 15 años dedicados a brindar atención de calidad, cercana y profesional a cada uno de mis pacientes.</p>
+
+      <div class="credential reveal">
+        <div class="credential-icon">🎓</div>
+        <div>
+          <h4>Formación Académica</h4>
+          <p>Médico Cirujano — Universidad Nacional Autónoma de México (UNAM)</p>
+        </div>
+      </div>
+      <div class="credential reveal">
+        <div class="credential-icon">📋</div>
+        <div>
+          <h4>Cédula Profesional</h4>
+          <p>No. 12345678 — SEP</p>
+        </div>
+      </div>
+      <div class="credential reveal">
+        <div class="credential-icon">🏥</div>
+        <div>
+          <h4>Experiencia</h4>
+          <p>Hospital General de México, consulta privada desde 2010</p>
+        </div>
+      </div>
+      <div class="credential reveal">
+        <div class="credential-icon">📜</div>
+        <div>
+          <h4>Certificaciones</h4>
+          <p>Diplomado en Medicina Familiar y Urgencias Médicas</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="contact" id="contacto">
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <div class="section-tag">Contacto</div>
+    <h2 class="section-title reveal">Agenda tu cita hoy</h2>
+    <p class="section-subtitle reveal">Estamos para atenderte. Visítanos en el consultorio o comunícate con nosotros por cualquiera de estos medios.</p>
+  </div>
+  <div class="contact-inner">
+    <div class="contact-info">
+      <div class="contact-item reveal">
+        <div class="contact-icon">📍</div>
+        <div>
+          <h4>Dirección</h4>
+          <p>Av. Insurgentes Sur 1234, Col. Del Valle,<br>C.P. 03100, Ciudad de México</p>
+        </div>
+      </div>
+      <div class="contact-item reveal">
+        <div class="contact-icon">📞</div>
+        <div>
+          <h4>Teléfono</h4>
+          <p>55 1234 5678</p>
+        </div>
+      </div>
+      <div class="contact-item reveal">
+        <div class="contact-icon">💬</div>
+        <div>
+          <h4>WhatsApp</h4>
+          <p>55 9876 5432<br><small>Respuesta en menos de 2 horas</small></p>
+        </div>
+      </div>
+      <div class="contact-item reveal">
+        <div class="contact-icon">🕐</div>
+        <div>
+          <h4>Horario de atención</h4>
+          <p>Lunes a Viernes: 9:00 — 19:00<br>Sábados: 9:00 — 14:00</p>
+        </div>
+      </div>
+      <div class="contact-item reveal">
+        <div class="contact-icon">✉️</div>
+        <div>
+          <h4>Correo electrónico</h4>
+          <p>contacto@drmendez.com.mx</p>
+        </div>
+      </div>
+    </div>
+    <div class="map-container reveal">
+      <div class="map-placeholder">
+        <span class="map-icon">🗺️</span>
+        <p>Aquí va el mapa de Google Maps<br><small>Inserta tu iframe de Google Maps</small></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Dr. Alejandro Méndez García — Cédula Profesional No. 12345678</p>
+  <p style="margin-top: 8px;">Hecho con ❤️ para cuidar tu salud</p>
+</footer>
+
+<!-- WHATSAPP BUTTON -->
+<a href="https://wa.me/5215598765432?text=Hola%20Dr.%20Méndez,%20me%20gustaría%20agendar%20una%20cita" class="whatsapp-btn" target="_blank" title="Contáctanos por WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
